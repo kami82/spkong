@@ -27,7 +27,7 @@
 > Kong API Gateway<br>
 - 소개<br>
   Kong API Gateway는 API 레이어이며 개발자는 여러 API를 한 시스템에서 활용할 때 Kong을 사용 가능함<br>
-  ![The Kong Way](kong_ach.png)<br>
+  <img src = "./kong_ach.png" width="40%"><br>
   [출처 : https://github.com/Kong/kong]
 - 특징<br>
   인증, 보안, 통신 등 새로운 기능을 플러그인 형태로 제공<br>
