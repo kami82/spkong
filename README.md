@@ -1,4 +1,4 @@
-###Spring boot와 Kong API Gateway를 이용한 REST API 관리 - for Mac
+### Spring boot와 Kong API Gateway를 이용한 REST API 관리 - for Mac
 > 시나리오<br>
 1. Docker를 통해 kong api gateway 를 구동
 2. Spring boot 를 이용하여 간단한 REST API 서버를 구성
