@@ -99,7 +99,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
 }
 
 ```
-스웨거 UI 접속 : http://localhost:7890/swagger-ui.html
+스웨거 UI 접속 : http://localhost:7890/swagger-ui.html<br>
 <img src = "./swagger_ui.png" width="40%">  <br>
 > REST API 구현<br>
 
