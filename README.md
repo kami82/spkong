@@ -7,7 +7,8 @@
 5. kong api gateway에 consumer를 추가하고 key-auth 플러그인을 설치하여 키발급
 6. 발급 받은 키를 통하여 REST API에 접근
 7. kong api gateway에 ACL 플러그인을 설치하여 등록된 2개의 REST API 각각 분리하여 관리하며 사용자에 대한 인가 처리
-8. 끝
+8. unirest 사용하여 테스트
+9. 끝
 
 > 관련 용어<br>
 + REST API : Simple Web Service
@@ -23,6 +24,7 @@
 | Swagger 2.9.2    | REST API 문서화 라이브러리 |
 | Docker | 클라우드 구성을 위한 도구 |
 | Kong API Gateway | REST API 관리 |
+| Unirest 3.3.00 |  REST Call 라이브러리 |
 
 > Kong API Gateway<br>
 - 소개<br>
@@ -97,7 +99,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
         super.addResourceHandlers(registry);
     }
 }
-
+ 
 ```
 스웨거 UI 접속 : http://localhost:7890/swagger-ui.html<br>
 <img src = "./swagger_ui.png" width="40%">  <br>
@@ -166,6 +168,30 @@ curl -X POST http://localhost:8001/routers/{route_id}/plugins --data "name=acl" 
 
 7. Create ACL Consumer Mapping
 curl -X POST http://localhost:8001/consumers/userA/acls --data "group=test1-group"
+```
+
+> Unirest를 사용한 테스트<br>
+
+사용법은 >>> https://github.com/Kong/unirest-java<br>
+- maven dependency<br>
+```xml
+<!-- https://mvnrepository.com/artifact/com.konghq/unirest-java -->
+<dependency>
+    <groupId>com.konghq</groupId>
+    <artifactId>unirest-java</artifactId>
+    <version>3.3.00</version>
+    <scope>provided</scope>
+</dependency>
+```
+- API Call<br>
+```java
+   HttpResponse<String> response = Unirest.get("http://localhost:7890/test2")
+                                          .header("username", "userA")
+                                          .header("apikey","1234")
+                                          .header("Host", "test2")
+                                          .asString();
+   System.out.println(response.getBody());
+
 ```
 > 결과<br>
 - 위의 설정대로 진행했을때 userA는 test1-group에 등록이 되며 test1-group이 아닌 다른 그룹에는 접근을 할 수 없음<br>
