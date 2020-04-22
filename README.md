@@ -212,12 +212,12 @@ curl -X POST http://localhost:8001/consumers/userA/acls --data "group=test1-grou
     // 1. 파일 생성
     File file = new File("{filePath}");
     // 2. REST Call
-    HttpResponse<String> response = Unirest.post("{kongProxy}/{service}").field("file", file).asString();
+    HttpResponse<String> response = Unirest.post("{restUrl}/{service}").field("file", file).asString();
 ```
 - 파일 다운로드 클라이언트<br>
 ```java
     // 1. REST Call
-    HttpResponse<byte[]> response = Unirest.post("{kongProxy}/{service}").asString();
+    HttpResponse<byte[]> response = Unirest.post("{restUrl}/{service}").asString();
     // 2. 파일 이름 추출
     String fileName = r.getHeaders().getFirst("fileName");
     // 3. Body의 내용을 byte[]으로 변환
