@@ -1,4 +1,4 @@
-### Spring boot와 Kong API Gateway를 이용한 REST API 관리 - for Mac
+## Spring boot와 Kong API Gateway를 이용한 REST API 관리 - for Mac
 > 시나리오<br>
 1. Docker를 통해 kong api gateway 를 구동
 2. Spring boot 를 이용하여 간단한 REST API 서버를 구성
@@ -185,11 +185,13 @@ curl -X POST http://localhost:8001/consumers/userA/acls --data "group=test1-grou
 ```
 - API Call<br>
 ```java
+   // 1. REST Call
    HttpResponse<String> response = Unirest.get("http://localhost:7890/test2")
                                           .header("username", "userA")
                                           .header("apikey","1234")
                                           .header("Host", "test2")
                                           .asString();
+   // 2. Result
    System.out.println(response.getBody());
 
 ```
@@ -204,4 +206,35 @@ curl -X POST http://localhost:8001/consumers/userA/acls --data "group=test1-grou
 - kong의 key-auth + ACL의 플러그인 조합을 통해 인증 및 인가의 문제도 해결
 - 또한 한시스템에서 Path를 이용한 서비스 분리도 가능함
 
- 
+> `**Tip**` Unirest를 사용한 파일 업로드와 다운로드<br>
+- 파일 업로드<br>
+ ```java
+    // 1. 파일 생성
+    File file = new File("{filePath}");
+    // 2. REST Call
+    HttpResponse<String> response = Unirest.post("{kongProxy}/{service}").field("file", file).asString();
+```
+- 파일 다운로드 클라이언트<br>
+```java
+    // 1. REST Call
+    HttpResponse<byte[]> response = Unirest.post("{kongProxy}/{service}").asString();
+    // 2. 파일 이름 추출
+    String fileName = r.getHeaders().getFirst("fileName");
+    // 3. Body의 내용을 byte[]으로 변환
+    byte[] content = r.getBody();
+    // 4. 파일 저장
+    FileOutputStream os = new FileOutputStream(new File("{파일경로}"+fileName));
+    os.write(content);
+    os.close();
+```
+- 파일 다운로드 서버<br>
+```java
+    @RequestMapping(value="/down.do", method = RequestMethod.POST)
+       public ResonseEntity<Resource> down(){
+       Path path = Paths.get("{파일경로}");
+       HttpHeaders  headers = new HttpHeaders();
+       headers.add("filename", path.getFileName().toString());
+       Resource  resource = new InputStreamResource(Files.newInputStream(path));
+       return new ResonseEntity<>(resource, headers, HttpStatus.OK);
+   }
+```
