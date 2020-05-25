@@ -8,7 +8,8 @@
 6. 발급 받은 키를 통하여 REST API에 접근
 7. kong api gateway에 ACL 플러그인을 설치하여 등록된 2개의 REST API 각각 분리하여 관리하며 사용자에 대한 인가 처리
 8. unirest 사용하여 테스트
-9. 끝
+9. Spring boot Actuator 및 Prometheus 설정
+10. 끝
 
 > 관련 용어<br>
 + REST API : Simple Web Service
@@ -24,6 +25,7 @@
 | Swagger 2.9.2    | REST API 문서화 라이브러리 |
 | Docker | 클라우드 구성을 위한 도구 |
 | Kong API Gateway | REST API 관리 |
+| Konga | Kong Admin|
 | Unirest 3.3.00 |  REST Call 라이브러리 |
 
 > Kong API Gateway<br>
@@ -136,6 +138,13 @@ public class MainClass {
 }
 
 ```
+> kong Docker 설정
+ <br>
+  - kong 도커 네트워크 생성 : docker network create kong-net <br>
+  - kong DB 실행 : docker run -d --name kong-database --network=kong-net -p 5432:5432 -e "POSTGRES_USER=kong" -e "POSTGRES_DB=kong" postgres:9.6 <br>
+  - kong DB 마이그레이션 설치 :  docker run --rm --network=kong-net -e "KONG_DATABASE=postgres" -e "KONG_PG_HOST=kong-database" -e "KONG_CASSANDRA_CONTACT_POINTS=kong-database" kong:latest kong migrations bootstrap <br>
+  - 도커 kong 실행 : docker run -d --name kong --network=kong-net -e "KONG_DATABASE=postgres" -e "KONG_PG_HOST=kong-database" -e "KONG_CASSANDRA_CONTACT_POINTS=kong-database" -e "KONG_PROXY_ACCESS_LOG=/dev/stdout" -e "KONG_ADMIN_ACCESS_LOG=/dev/stdout" -e "KONG_PROXY_ERROR_LOG=/dev/stderr" -e "KONG_ADMIN_ERROR_LOG=/dev/stdout" -e "KONG_ADMIN_LISTEN=0.0.0.0:8001, 0.0.0.0:8444 ssl" -p 8000:8000 -p 8443:8443 -p 8001:8001 -p 8444:8444 kong:latest <br>
+    + Kong은 서비스 포트(8000)와 관리자 포트(8001)로 구성됨<br>
 
 > kong 연동 <br>
 ```
@@ -238,3 +247,6 @@ curl -X POST http://localhost:8001/consumers/userA/acls --data "group=test1-grou
        return new ResonseEntity<>(resource, headers, HttpStatus.OK);
    }
 ```
+
+> Spring boot Actuator 및 Prometheus 설정<br>
+(1) Spring boot Actuator
