@@ -1,15 +1,16 @@
 ## Spring boot와 Kong API Gateway를 이용한 REST API 관리 - for Mac
 > 시나리오<br>
 1. Docker를 통해 kong api gateway 를 구동
-2. Spring boot 를 이용하여 간단한 REST API 서버를 구성
-3. Spring boot 와 Swaager 를 연동하여 REST API를 문서화
-4. kong api gateway에 spring으로 구현된 REST API를 분리하여 2개를 등록
-5. kong api gateway에 consumer를 추가하고 key-auth 플러그인을 설치하여 키발급
-6. 발급 받은 키를 통하여 REST API에 접근
-7. kong api gateway에 ACL 플러그인을 설치하여 등록된 2개의 REST API 각각 분리하여 관리하며 사용자에 대한 인가 처리
-8. unirest 사용하여 테스트
-9. Spring boot Actuator 및 Prometheus 설정
-10. 끝
+2. Docker를 통해 konga 설치
+3. Spring boot 를 이용하여 간단한 REST API 서버를 구성
+4. Spring boot 와 Swaager 를 연동하여 REST API를 문서화
+5. kong api gateway에 spring으로 구현된 REST API를 분리하여 2개를 등록
+6. kong api gateway에 consumer를 추가하고 key-auth 플러그인을 설치하여 키발급
+7. 발급 받은 키를 통하여 REST API에 접근
+8. kong api gateway에 ACL 플러그인을 설치하여 등록된 2개의 REST API 각각 분리하여 관리하며 사용자에 대한 인가 처리
+9. unirest 사용하여 테스트
+10. Spring boot Actuator 및 Prometheus 설정
+11. 끝
 
 > 관련 용어<br>
 + REST API : Simple Web Service
