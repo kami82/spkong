@@ -9,8 +9,7 @@
 7. 발급 받은 키를 통하여 REST API에 접근
 8. kong api gateway에 ACL 플러그인을 설치하여 등록된 2개의 REST API 각각 분리하여 관리하며 사용자에 대한 인가 처리
 9. unirest 사용하여 테스트
-10. Spring boot Actuator 및 Prometheus 설정
-11. 끝
+10. 끝
 
 > 관련 용어<br>
 + REST API : Simple Web Service
@@ -250,6 +249,3 @@ curl -X POST http://localhost:8001/consumers/userA/acls --data "group=test1-grou
        return new ResonseEntity<>(resource, headers, HttpStatus.OK);
    }
 ```
-
-> Spring boot Actuator 및 Prometheus 설정<br>
-(1) Spring boot Actuator
